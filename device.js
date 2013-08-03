@@ -1,6 +1,6 @@
 var randomstring = require("randomstring");
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost/skip_devices')
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/skip_devices')
 
 var db = mongoose.connection;
 var Device;

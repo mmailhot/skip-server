@@ -13,6 +13,13 @@ Required Parameters:
 
 Function
 	Add's device to the database and returns the device w/ API key
+
+Returns
+	Success:
+		The device just added
+	Failures:
+		Error 400: Improper Data Sent
+		Error 500: Server Error
 */
 
 app.post('/devices',function(req,res){
@@ -26,7 +33,7 @@ app.post('/devices',function(req,res){
 			helpers.handleValidationError(err,res);
 			return
 		}
-		res.json(device);
+		res.json([device]);
 	});
 });
 
@@ -38,10 +45,32 @@ Required Parameters:
 Function
 	Returns the device's details
 
+Returns
+	Success:
+		The device
+	Failures:
+		Error 400: Improper Data Sent
+		Error 500: Server Error
 */
 
 app.get('/devices',function(req,res){
-	
+	if(!req.query.device_id){
+		res.json(400,{"errors":["Invalid Parameters"]});
+		return
+	}
+	Device.findOne({device_id: req.query.device_id},'device_id api_key renew_gcm',function(err,device){
+		if(err){
+			res.json(500,{"errors":["Internal Server Error"]});
+			return
+		}
+		res.json([device])
+		return
+	});
 });
+
+/* POST /devices/:api_key/
+
+Function */
+
 
 app.listen(process.env.PORT || 8000);
