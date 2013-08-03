@@ -1,0 +1,9 @@
+{
+	"name":"skip-server",
+	"description":"A simple RESTFUL server for Pebble + Android",
+	"version":"0.0.1",
+	"dependencies":{
+		"express":"3.x",
+		"mongoose":"*"
+	}
+}
