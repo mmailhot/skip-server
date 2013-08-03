@@ -9,7 +9,6 @@ app.post('/devices',function(req,res){
 		res.send(400,"Invalid Parameters.");
 		return
 	}
-	console.log(Device);
 	var device = new Device({device_id:req.body.device_id,
 	                     gcm_id:   req.body.gcm_id});
 	device.save(function(err,device){
