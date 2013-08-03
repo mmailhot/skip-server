@@ -25,13 +25,13 @@ Returns
 app.post('/devices',function(req,res){
 	if(!req.body.device_id || !req.body.gcm_id){
 		res.json(400,{"errors":["Invalid Parameters"]});
-		return
+		return;
 	}
 	var device = new Device({device_id: req.body.device_id, gcm_id: req.body.gcm_id});
 	device.save(function(err,device){
 		if(err){
 			helpers.handleValidationError(err,res);
-			return
+			return;
 		}
 		res.json([device]);
 	});
@@ -56,15 +56,19 @@ Returns
 app.get('/devices',function(req,res){
 	if(!req.query.device_id){
 		res.json(400,{"errors":["Invalid Parameters"]});
-		return
+		return;
 	}
 	Device.findOne({device_id: req.query.device_id},'device_id api_key renew_gcm',function(err,device){
 		if(err){
 			res.json(500,{"errors":["Internal Server Error"]});
-			return
+			return;
 		}
-		res.json([device])
-		return
+		if(device == null){
+			res.json([]);
+			return;
+		}
+		res.json([device]);
+		return;
 	});
 });
 
