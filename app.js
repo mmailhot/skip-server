@@ -58,7 +58,7 @@ app.get('/devices',function(req,res){
 		res.json(400,{"errors":["Invalid Parameters"]});
 		return;
 	}
-	Device.findOne({device_id: req.query.device_id},'device_id api_key renew_gcm',function(err,device){
+	Device.findOne({device_id: req.query.device_id},'device_id gcm_id api_key',function(err,device){
 		if(err){
 			res.json(500,{"errors":["Internal Server Error"]});
 			return;
