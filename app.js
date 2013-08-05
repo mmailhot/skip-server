@@ -5,6 +5,21 @@ var helpers = require('./helpers.js');
 
 app.use(express.bodyParser());
 
+
+app.param('api_key',function(req, res, next, api_key){
+	console.log(api_key);
+	Device.findOne({api_key: api_key},function(err,device){
+		if(err){
+			res.json(500,{sucess:false,errors:["Internal Server Error"]});
+		}else if(device){
+			req.device = device;
+			next();
+		}else{
+			res.json(400,{sucess:false,errors:["Invalid API Key"]});
+		}
+	});
+});
+
 /*POST /devices
 
 Required Parameters:
@@ -75,6 +90,28 @@ app.get('/devices',function(req,res){
 /* POST /devices/:api_key/
 
 Function */
+
+/* DELETE /devices/:api_key/ 
+
+	Required Parameters
+		device_id -> Unique ID just for safety
+*/
+app.delete('/devices/:api_key',function(req,res){
+	if(!req.body.device_id){
+		res.json(400,{sucess:false,"errors":["Invalid Parameters"]});
+		return;
+	}
+	if(req.device.device_id == req.body.device_id){
+		req.device.remove();
+	}else{
+		res.json(400,{sucess:false,"errors":["Invalid Device ID"]});
+		return;
+	}
+	
+	res.json(200,{sucess:true});
+});
+
+/* PUT /devices/:api_key/ */
 
 
 app.listen(process.env.PORT || 8000);
