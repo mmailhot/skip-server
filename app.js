@@ -91,12 +91,13 @@ app.get('/devices',function(req,res){
 
 Function */
 
-/* DELETE /devices/:api_key/ 
+/* POST /devices/:api_key/delete
+	As more parameters were needed this had to beomce a POST request :(
 
 	Required Parameters
 		device_id -> Unique ID just for safety
 */
-app.delete('/devices/:api_key',function(req,res){
+app.post('/devices/:api_key/delete',function(req,res){
 	if(!req.body.device_id){
 		res.json(400,{sucess:false,"errors":["Invalid Parameters"]});
 		return;
