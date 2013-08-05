@@ -10,12 +10,12 @@ app.param('api_key',function(req, res, next, api_key){
 	console.log(api_key);
 	Device.findOne({api_key: api_key},function(err,device){
 		if(err){
-			res.json(500,{sucess:false,errors:["Internal Server Error"]});
+			res.json(500,{success:false,errors:["Internal Server Error"]});
 		}else if(device){
 			req.device = device;
 			next();
 		}else{
-			res.json(400,{sucess:false,errors:["Invalid API Key"]});
+			res.json(400,{success:false,errors:["Invalid API Key"]});
 		}
 	});
 });
@@ -99,17 +99,17 @@ Function */
 */
 app.post('/devices/:api_key/delete',function(req,res){
 	if(!req.body.device_id){
-		res.json(400,{sucess:false,"errors":["Invalid Parameters"]});
+		res.json(400,{success:false,"errors":["Invalid Parameters"]});
 		return;
 	}
 	if(req.device.device_id == req.body.device_id){
 		req.device.remove();
 	}else{
-		res.json(400,{sucess:false,"errors":["Invalid Device ID"]});
+		res.json(400,{success:false,"errors":["Invalid Device ID"]});
 		return;
 	}
 	
-	res.json(200,{sucess:true});
+	res.json(200,{success:true});
 });
 
 /* PUT /devices/:api_key/ */
