@@ -99,12 +99,12 @@ app.post('/devices/:api_key',function(req,res){
 		return;
 	}
 
-	var message = new gcm.Message(
-		data:{
+	var message = new gcm.Message({
+		data{
 			title:req.body.title,
 			body:req.body.body
 		}
-	);
+	});
 	if(req.body.collapse_key){
 		message.collapseKey	= req.body.collapse_key;
 	}
