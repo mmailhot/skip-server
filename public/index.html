@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SKIP - Simple Kommunication Interface for Pebble</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap -->
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+
+  body {
+      padding-top: 20px;
+  }
+
+  .margin-base-vertical {
+      margin: 40px 0;
+      text-align: center;
+  }
+
+  section{
+    margin-top: 30px;
+  }
+
+  .github-links{
+    text-align: center;
+  }
+
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-6 col-offset-3">
+              <div class="margin-base-vertical">
+                  <h1>SKIP</h1>
+                  <h3>Simple Kommunication Interface for Pebble</h3>
+                  <h3>Super Alpha Edition</h3>
+              </div>
+              
+              <section>
+                <h4>What is SKIP?</h4> 
+                <p>
+                  SKIP is an API that allows you to quickly send a message directly to your Pebble Smartwatch though Android and Google Cloud Messaging. Since is uses simple http POST requests, messages can be sent easily from a wide variety of languages (even bash scripts). All code is MIT Liscensed.
+                </p>
+              </section>
+              
+              <section>
+                <h4>How does it work?</h4>
+                <p>After you download and install the .apk it will issue you an API key that is linked to your device. Simply send a POST request to the endpoint (instructions below).</p>
+              </section>
+
+              <section>
+                <h4 class="text-warning">Caveats + Warnings</h4>
+                <ul>
+                  <li>
+                    <p>
+                      This was a quick weekend project - therefore security, stability, etc. are not quaranteed. Raise any issues on the github repo's linked below.
+                    </p>
+                  </li>
+                   <li>
+                    <p>
+                      The endpoint is currently hosted on a free heroku instance which has limits on both throughput/speed and the number of devices that can be registered. If you are going to root/wipe/change phones please unregister the old one. Sorry, I'm a broke student and can't afford hosting for it.
+                    </p>
+                  </li>
+                  <li>
+                    Android 2.3+ Only.
+                  </li>
+                </ul>
+              </section>
+
+              <section>
+                <h4>Details instructions</h4>
+                <ol>
+                  <li>Download and install the APK from the link below</li>
+                  <li>Select the register device link</li>
+                  <li>Your API key should appear</li>
+                  <li class="text-warning">WARNING: If you unregister your device, when you reregister your API key will be different</li>
+                  <li>Send a POST request to <pre>http://skipapebble.herokuapp.com/devices/YOUR_API_KEY</pre> with two parameters in the body <code>title</code> containing the title of the notification and <code>body</code> containing the body of the notification</li>
+                  <li>The API will return a JSON Object with a key <code>success</code> containg a true/false value</li>
+                </ol>
+              </section>
+              <section>
+                <h4>Examples</h4>
+                <p>cURL</p>
+                <pre>
+curl -d "title=<span class="text-danger">YOUR TITLE HERE</span>&body=<span class="text-danger">YOUR BODY HERE</span>" http://skipapebble.herokuapp.com/devices/<span class="text-danger">YOUR API KEY</span>
+                </pre>
+                <p>More examples hopefully coming soon</p>
+              </section>
+              <section>
+                <h4>Download &amp; Github</h4>
+                <p>
+                  <a class="btn btn-primary btn-lg btn-block">Download Android Client APK</a>
+                </p>
+                <p class="github-links">
+                  <a href="https://github.com/mmailhot/skip-server/">Server Github</a><br/>
+                  <a href="https://github.com/mmailhot/skip-android/">Android Client Github</a>
+                </p>
+              </section>
+
+          </div>
+      </div>
+  </div>
+
+</body>
+</html>
