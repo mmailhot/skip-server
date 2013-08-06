@@ -123,9 +123,10 @@ app.post('/devices/:api_key',function(req,res){
 			return;
 		}
 		res.send(200,{success:true});
+		console.log(result);
 		try{
-			if(result.canonicalRegistrationId != device.gcm_id){
-				device.gcm_id = result.canonicalRegistrationId;
+			if(result.canonicalRegistrationId != req.device.gcm_id){
+				req.device.gcm_id = result.canonicalRegistrationId;
 				device.save();
 			}
 		}
