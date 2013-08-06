@@ -5,6 +5,7 @@ var helpers = require('./helpers.js');
 var gcm = require("node-gcm");
 
 app.use(express.bodyParser());
+app.use(express.static(__dirname + '/public'));
 
 
 app.param('api_key',function(req, res, next, api_key){
