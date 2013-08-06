@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var Device = require('./device.js').device;
 var helpers = require('./helpers.js');
+var gcm = require("node-gcm");
 
 app.use(express.bodyParser());
 
@@ -89,7 +90,46 @@ app.get('/devices',function(req,res){
 
 /* POST /devices/:api_key/
 
-Function */
+	Function 
+		Sends a pebble message to the associated device
+*/
+app.post('/devices/:api_key',function(req,res){
+	if(!req.body.title || !req.body.body){
+		res.json(400,{success:false,errors:["Invalid Parameters (did you include a title & a body?)"]});
+		return;
+	}
+
+	var message = new gcm.Message(
+		data:{
+			title:req.body.title,
+			body:req.body.body
+		}
+	);
+	if(req.body.collapse_key){
+		message.collapseKey	= req.body.collapse_key;
+	}
+	if(req.body.ttl){
+		message.timeToLive = req.body.ttl;
+	}
+	var gcm_ids = [req.device.gcm_id];
+	var sender = new gcm.Sender('AIzaSyDshQwMlWR7fbukMeJ38nivNAja7OKhXOU');
+
+	sender.send(message,gcm_ids,2,function(err,result)){
+		if(err){
+			res.json(500,{success:false
+			              errors:[
+			              	"GCM Error - Code: " + err.errorCode;
+			              ]});
+			return;
+		}
+		res.send(200,{success:true});
+		if(result.cannonicalRegistrationId != device.gcm_id){
+			device.gcm_id = result.cannonicalRegistrationId;
+			device.save();
+		}
+	}
+
+});
 
 /* POST /devices/:api_key/delete
 	As more parameters were needed this had to beomce a POST request :(
