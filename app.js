@@ -118,15 +118,20 @@ app.post('/devices/:api_key',function(req,res){
 		if(err){
 			res.json(500,{success:false,
 			              errors:[
-			              	"GCM Error - Code: " + err.errorCode
+			              	"GCM Error - Code: " + err
 			              ]});
 			return;
 		}
 		res.send(200,{success:true});
-		if(result.cannonicalRegistrationId != device.gcm_id){
-			device.gcm_id = result.cannonicalRegistrationId;
-			device.save();
+		try{
+			if(result.canonicalRegistrationId != device.gcm_id){
+				device.gcm_id = result.canonicalRegistrationId;
+				device.save();
+			}
 		}
+		catch(e){
+			console.log("Error handling GCM response" + e);
+		};
 	});
 
 });
