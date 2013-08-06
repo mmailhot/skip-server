@@ -100,7 +100,7 @@ app.post('/devices/:api_key',function(req,res){
 	}
 
 	var message = new gcm.Message({
-		data{
+		data: {
 			title:req.body.title,
 			body:req.body.body
 		}
@@ -114,11 +114,11 @@ app.post('/devices/:api_key',function(req,res){
 	var gcm_ids = [req.device.gcm_id];
 	var sender = new gcm.Sender('AIzaSyDshQwMlWR7fbukMeJ38nivNAja7OKhXOU');
 
-	sender.send(message,gcm_ids,2,function(err,result)){
+	sender.send(message,gcm_ids,2,function(err,result){
 		if(err){
-			res.json(500,{success:false
+			res.json(500,{success:false,
 			              errors:[
-			              	"GCM Error - Code: " + err.errorCode;
+			              	"GCM Error - Code: " + err.errorCode
 			              ]});
 			return;
 		}
@@ -127,7 +127,7 @@ app.post('/devices/:api_key',function(req,res){
 			device.gcm_id = result.cannonicalRegistrationId;
 			device.save();
 		}
-	}
+	});
 
 });
 
