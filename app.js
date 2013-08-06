@@ -4,8 +4,9 @@ var Device = require('./device.js').device;
 var helpers = require('./helpers.js');
 var gcm = require("node-gcm");
 
+process.env.PWD = process.cwd()
 app.use(express.bodyParser());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(process.env.PWD  + '/public'));
 
 
 app.param('api_key',function(req, res, next, api_key){
